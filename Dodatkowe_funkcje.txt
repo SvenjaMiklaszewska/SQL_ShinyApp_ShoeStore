@@ -1,0 +1,342 @@
+load.produkty_rodzaj <- function(rodzaj) {
+  query = paste0("SELECT p.nazwa, p.rodzaj
+                FROM produkty p WHERE p.rodzaj ='", rodzaj,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  produkty_rodzaj = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(produkty_rodzaj)
+}
+
+load.produkty_material <- function(material) {
+  query = paste0("SELECT p.nazwa, p.cena, p.rozmiar,p.material
+                FROM produkty p WHERE p.material ='", material,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  produkty_material = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(produkty_material)
+}
+
+load.produkty_kolor <- function(kolor) {
+  query = paste0("SELECT *
+                FROM produkty p WHERE p.kolor ='",kolor,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  produkty_kolor = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(produkty_kolor)
+}
+
+load.produkty_kolekcja <- function(kolekcja) {
+  query = paste0("SELECT *
+                FROM produkty p WHERE p.kolekcja ='",kolekcja,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  produkty_kolekcja = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(produkty_kolekcja)
+}
+
+load.produkty_rozmiar <- function(rozmiar) {
+  query = paste0("SELECT *
+                FROM produkty p WHERE p.rozmiar ='",rozmiar,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  produkty_rozmiar = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(produkty_rozmiar)
+}
+
+load.produkty_wysokosc_obcasa <- function(wysokosc) {
+  query = paste0("SELECT *
+                FROM produkty p WHERE p.wysokosc_obcasa ='", wysokosc,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  produkty_wysokosc_obcasa = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(produkty_wysokosc_obcasa)
+}
+
+load.produkty_sezon <- function(sezon) {
+  query = paste0("SELECT *
+                FROM produkty p WHERE p.sezon ='", sezon,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  produkty_sezon = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(produkty_sezon)
+}
+
+#####################
+do calosci, czy na koncu zadziala(??)
+################################
+
+load.produkty_multi_filtry<- function(rodzaj,material,kolor,kolekcja,sezon,rozmiar,wysokosc) {
+  query = paste0("SELECT *
+                FROM produkty p WHERE p.rodzaj ='", rodzaj,"'" AND p.material='", material,"'" 
+AND p.kolor='", kolor,"'" AND p.kolekcja='", kolekcja,"'" AND p.sezon ='", sezon,"'" AND p.rozmiar='", rozmiar,"'" AND p.wysokosc_obcasa='", wysokosc,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  produkty_multi_filtry = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(produkty_multi_filtry)
+}
+
+##############################
+koszyk <=> widok
+##############################
+
+load.koszyk_view <- function(id) {
+  query = paste0("SELECT *
+                FROM zawartosc_koszyka_view WHERE id_klienta="'",id,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  produkty_koszyk_view = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(produkty_koszyk_view)
+}
+
+load.id<- function() {
+  query = paste0("SELECT id_klienta
+                FROM zawartosc_koszyka_view ")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  id.klient.z.koszyka = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(id.klient.z.koszyka)
+}
+
+
+############################################
+z dostawami, filtry
+#############################
+
+load.miasto <- function() {
+  query = "SELECT miasto FROM adresy_dostaw"
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  miasto = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(miasto)
+}
+load.ulica <- function() {
+  query = "SELECT ulica FROM adresy_dostaw"
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  ulica = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(ulica)
+}
+
+load.nr_budynku <- function() {
+  query = "SELECT nr_budynku FROM adresy_dostaw"
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  nr_budynku = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(nr_budynku)
+}
+
+load.nr_mieszkania<- function() {
+  query = "SELECT nr_mieszkania FROM adresy_dostaw"
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  nr_mieszknia = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(nr_mieszkania)
+}
+
+load.kod<- function() {
+  query = "SELECT kod FROM adresy_dostaw"
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  kod = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(kod)
+}
+
+###########
+dostawy wyswietlanie
+########
+
+
+load.dostawy_miasto <- function(miasto) {
+  query = paste0("SELECT *
+                FROM adresy_dostaw ad WHERE ad.miasto ='", miasto,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  dostawy_miasto = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(dostawy_miasto)
+}
+
+
+load.dostawy_ulica <- function(ulica) {
+  query = paste0("SELECT *
+                FROM adresy_dostaw ad WHERE ad.ulica ='", ulica,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  dostawy_ulica = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(dostawy_ulica)
+}
+
+
+load.dostawy_nr_budynku <- function(nr_budynku) {
+  query = paste0("SELECT *
+                FROM adresy_dostaw ad WHERE ad.nr_budynku='", nr_budynku,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  dostawy_nr_budynku = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(dostawy_nr_budynku)
+}
+
+load.dostawy_nr_mieszkania <- function(nr_mieszkania) {
+  query = paste0("SELECT *
+                FROM adresy_dostaw ad WHERE ad.nr_mieszkania ='", nr_mieszkania,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  dostawy_nr_mieszkania = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(dostawy_nr_mieszkania)
+}
+
+load.dostawy_kod <- function(kod) {
+  query = paste0("SELECT *
+                FROM adresy_dostaw ad WHERE ad.kod ='", kod,"'")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  dostawy_kod = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(dostawy_kod)
+}
+
+#########################################
+status paczki view
+#########################################
+
+load.status_paczki_view <- function() {
+  query = paste0("SELECT *
+                FROM status_paczki")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  status_paczki_view = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(status_paczki_view)
+}
+
+####################################
+status zwrotow view
+###################################
+
+
+load.status_zwrotow_view <- function() {
+  query = paste0("SELECT *
+                FROM status_zwrotow")
+  con = open.my.connection()
+  res = dbSendQuery(con,query)
+  status_zwrotow_view = dbFetch(res)
+  dbClearResult(res)
+  close.my.connection(con)
+  return(status_zwrotow_view)
+}
+
+#########################
+funkcja wraz z wyzwalaczem
+
+#######################
+
+
+CREATE OR REPLACE FUNCTION aktualizuj_status_zam() RETURNS TRIGGER AS $$
+  BEGIN
+	IF(OLD.status_zamowienia ='oplacono') THEN
+	   NEW.status_zamowienia='w przygotowaniu';
+	   RETURN NEW;
+	ELSIF(OLD.status_zamowienia ='w przygotowaniu') THEN
+	   NEW.status_zamowienia='wyslana';
+	   RETURN NEW;
+	ELSIF(OLD.status_zamowienia ='wyslana') THEN
+	   NEW.status_zamowienia='dostarczona';
+	   RETURN NEW;
+	ELSIF(OLD.status_zamowienia = dostarczona') THEN
+	   RAISE EXCEPTION 'dostarczono juz zamowienie';
+	END IF;
+ END;
+$$ LANGUAGE plpgsql;
+
+CEREATE TRIGGER aktualizuj_status_zam_trigger BEFORE UPDATE ON zamowienia
+FOR EACH ROW EXECUTE OROCEDURE aktualizuj_status_zam();
+
+CREATE OR REPLACE FUNCTION aktualizuj_status_zwrotu(i INTEGER, id_zwrotu_ INTEGER) RETURNS VOID AS $$
+  BEGIN
+	IF(i=1) THEN
+	UPDATE zwroty WHERE set NEW.status = 'rozpatrzone_pozytywnie' WHERE id_zwrotu=id_zwrotu_;
+	ELSIF(i=0) THEN
+	UPDATE zwroty WHERE set NEW.status = 'rozpatrzone_negatywnie' WHERE id_zwrotu=id_zwrotu_;
+	END IF;
+ END;
+$$ LANGUAGE plpgsql;
+
+
+
+###############
+funkcja dodająca produkt
+##################
+
+CREATE OR REPLACE FUNCTION dodaj_produkt(nazwa_ VARCHAR(50), cena_ DECIMAL(6,2),
+dla_kogo_ VARCHAR(20),rozmiar_ INTEGER,rodzaj_ VARCHAR(50),kolor_ VARCHAR(80),
+kolekcja_ VARCHAR(80), material_ VARCHAR(80), wysokosc_obcasa_ INTEGER, sezon_ VARCHAR(50)) RETURNS VOID AS $$
+BEGIN
+IF(cena_>0 AND cena_<9990.99) THEN
+
+INSERT INTO produkty(nazwa,cena,dla_kogo,rozmiar,rodzaj,kolor,kolekcja,material,wysokosc_obcasa,sezon) VALUES
+(nazwa_,cena_,dla_kogo_,rozmiar_,rodzaj_,kolor_,kolekcja_,material_,wysokosc_obcasa_,sezon_);
+END IF;
+END;
+
+$$LANGUANGE 'pspgsql';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
